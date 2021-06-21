@@ -32,7 +32,7 @@ class Util:
             if(confianca >= confianca_minima):
                 left, top, img = Util.draw_text_box(resultado, img_copia, i)
                 texto = resultado['text'][i]
-                if escrever_texto :
+                if escrever_texto:
                     img_copia = Util.write_text(texto, left, top ,img_copia, fonte)
         return img_copia
 

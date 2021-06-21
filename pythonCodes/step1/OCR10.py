@@ -6,7 +6,7 @@ import cv2
 import re #expressão regular
 from PIL import ImageFont, Image, ImageDraw
 
-image = cv2.imread("../Util/Imagens/caneca.jpg")
+image = cv2.imread("../../Util/Imagens/caneca.jpg")
 rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 resultado = pytesseract.image_to_data(rgb, lang='por', output_type=Output.DICT) #DICT = Dicionário
 def escreve_texto(texto, x, y, img, fonte, tamanho_texto = 32):
@@ -32,7 +32,7 @@ img_copia = rgb.copy()
 
 min_conf = 40
 
-font_dir = '../Util/Fontes/calibri.ttf'
+font_dir = '../../Util/Fontes/calibri.ttf'
 
 for i in range(0, len(resultado['text'])):
     confianca = int(resultado['conf'][i])

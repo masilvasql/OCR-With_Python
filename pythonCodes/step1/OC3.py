@@ -2,7 +2,7 @@ import pytesseract
 import cv2
 import numpy as np
 
-img = cv2.imread('../meus/1874ac2211ecb85903dac2293e720c2b.jpg')
+img = cv2.imread('../../meus/1874ac2211ecb85903dac2293e720c2b.jpg')
 rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 # print(pytesseract.get_languages(config=''))
 

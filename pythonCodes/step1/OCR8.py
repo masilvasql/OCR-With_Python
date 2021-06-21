@@ -6,9 +6,9 @@ import cv2
 import matplotlib.pyplot as plt
 from PIL import ImageFont, Image, ImageDraw
 
-font_dir = '../Util/Fontes/calibri.ttf'
+font_dir = '../../Util/Fontes/calibri.ttf'
 
-image = cv2.imread("../Util/Imagens/teste02.jpg")
+image = cv2.imread("../../Util/Imagens/teste02.jpg")
 rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 resultado = pytesseract.image_to_data(rgb, lang='por', output_type=Output.DICT) #DICT = Dicionário
 print(resultado)

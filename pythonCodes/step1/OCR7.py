@@ -4,7 +4,7 @@ from pytesseract import Output
 import cv2
 import matplotlib.pyplot as plt
 
-image = cv2.imread("../Util/Imagens/teste_manuscrito_01.jpg")
+image = cv2.imread("../../Util/Imagens/teste_manuscrito_01.jpg")
 rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 # config_tesseract = "--psm "
 resultado = pytesseract.image_to_data(rgb, lang='por', output_type=Output.DICT) #DICT = Dicionário

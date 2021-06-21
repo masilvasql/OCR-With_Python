@@ -2,7 +2,7 @@ import pytesseract
 import numpy as np
 import cv2
 
-img = cv2.imread('../Util/Imagens/saida.jpg')
+img = cv2.imread('../../Util/Imagens/saida.jpg')
 rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 #tesseract --help-extra (executar o comando no cmd)

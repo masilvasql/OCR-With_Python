@@ -6,7 +6,7 @@ import cv2
 import re #expressão regular
 from PIL import ImageFont, Image, ImageDraw
 
-image = cv2.imread("../Util/Imagens/tabela_teste.jpg")
+image = cv2.imread("../../Util/Imagens/tabela_teste.jpg")
 rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 resultado = pytesseract.image_to_data(rgb, lang='por', output_type=Output.DICT) #DICT = Dicionário
 # https://regexr.com/
@@ -16,7 +16,7 @@ img_copia = rgb.copy()
 
 min_conf = 40
 
-fonte_dir = '../Util/Fontes/calibri.ttf'
+fonte_dir = '../../Util/Fontes/calibri.ttf'
 
 def escreve_texto(texto, x, y, img, fonte, tamanho_texto=32):
   fonte = ImageFont.truetype(fonte, tamanho_texto)
