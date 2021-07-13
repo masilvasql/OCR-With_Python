@@ -1,6 +1,8 @@
 '''
     EAST + Tesseract
 
+    East + melhor para cenáros naturais
+
     Processamento de imagens
 
     Arquitetura east suporta apenas imagens com dimensões múltipas de 32
@@ -10,10 +12,12 @@
 import cv2
 import numpy as np
 from imutils.object_detection import non_max_suppression
+import pytesseract
 
 detector = '../../Util/modelos/frozen_east_text_detection.pb'
 largura, altura = 320, 320
 imagem = '../../Util/imagens/caneca.jpg'
+
 min_confianca = 0.9
 
 
@@ -56,7 +60,7 @@ print(linhas, colunas)
 
 caixas = []
 confiancas = []
-'''
+
 def dados_geometricos(geometry, y):
     xData0 = geometry[0, 0, y]
     xData1 = geometry[0, 1, y]
@@ -66,22 +70,44 @@ def dados_geometricos(geometry, y):
     return data_angulos, xData0, xData1, xData2, xData3
 
 def calculos_geometria(data_angulos, xData0, xData1, xData2, xData3):
-    (offesetX, offsetY) = (x * 4.0, y * 4.0)
+    (offsetX, offsetY) = (x * 4.0, y * 4.0)
     angulo = data_angulos[x]
     cos = np.cos(angulo)
     sin = np.sin(angulo)
     h = xData0[x] + xData2[x]
     w = xData1[x] + xData3[x]
 
-    fimX = int(offesetX + (cos * xData1[x]) + (sin() * xData2[x]))
-    fimY = int(offesetY - (sin * xData1[x]) + (sin() * xData2[x]))
+    fimX = int(offsetX + (cos * xData1[x]) + (sin * xData2[x]))
+    fimY = int(offsetY - (sin * xData1[x]) + (cos * xData2[x]))
     inicioX = int(fimX - w)
     inicioY = int(fimY - h)
 
-    return inicioX, inicioY, fimX, fimY'''
+    return inicioX, inicioY, fimX, fimY
 
+for y in range(0, linhas):
+    data_scores = scores[0,0,y]
+    data_angulos, xData0, xData1, xData2, xData3 = dados_geometricos(geometry , y)
 
+    for x in range(0, colunas):
+        if data_scores[x] < min_confianca:
+            continue
+        inicioX, inicioY, fimX, fimY = calculos_geometria(data_angulos, xData0, xData1, xData2, xData3)
+        confiancas.append(data_scores[x])
+        caixas.append((inicioX, inicioY, fimX, fimY))
 
+config_tesseract = '--psm 7'
+margem = 2
+deteccoes = non_max_suppression(np.array(caixas), probs=confiancas)
+copia = original.copy()
+for(inicioX, inicioY, fimX, fimY) in deteccoes:
+    inicioX = int(inicioX * proporcao_w)
+    inicioY = int(inicioY * proporcao_h)
+    fimX = int(fimX * proporcao_w)
+    fimY = int(fimY * proporcao_h)
+    #region of interest
+    roi = copia[inicioY-margem: fimY + margem, inicioX - margem:fimX + margem]
+    texto = pytesseract.image_to_string(roi, lang='por', config=config_tesseract)
+    cv2.rectangle(copia, (inicioX - margem, inicioY - margem), (fimX + margem, fimY + margem), (0,255,0),2)
 
-cv2.imshow("imagem",img)
+cv2.imshow("IMG",copia)
 cv2.waitKey(0)
