@@ -5,7 +5,7 @@
 '''
 
 import cv2
-
+import pytesseract
 img = cv2.imread('../../Util/Imagens/livro_adaptativa.jpg')
 
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -14,6 +14,8 @@ adapt_media_gaussiana = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAU
 
 #val, otsu = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
 #print(val)
-
+config_tesseract = "--psm 6"
+texto = pytesseract.image_to_string(adapt_media_gaussiana, lang="por", config=config_tesseract)
+print(texto)
 cv2.imshow("img",adapt_media_gaussiana)
 cv2.waitKey(0)
